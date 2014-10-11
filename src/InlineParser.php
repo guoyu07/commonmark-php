@@ -544,7 +544,8 @@ class InlineParser
             ) {
                 // make sure there's a space before the title:
                 if (preg_match('/^\\s/', $this->subject[$this->pos - 1])) {
-                    $title = $this->parseLinkTitle() ? : '';
+                    $title = $this->parseLinkTitle();
+                    $title = $title ? $title : '';
                 } else {
                     $title = null;
                 }
@@ -728,7 +729,8 @@ class InlineParser
                 $res = $this->parseImage($inlines);
                 break;
             case '<':
-                $res = $this->parseAutolink($inlines) ? : $this->parseHtmlTag($inlines);
+                $res = $this->parseAutolink($inlines);
+                $res = $res ? $res : $this->parseHtmlTag($inlines);
                 break;
             case '&':
                 $res = $this->parseEntity($inlines);
@@ -737,7 +739,7 @@ class InlineParser
                 // Nothing
         }
 
-        return $res ? : $this->parseString($inlines);
+        return $res ? $res : $this->parseString($inlines);
     }
 
     /**
